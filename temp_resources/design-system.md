@@ -172,50 +172,51 @@ Derivadas para manter coerência visual:
 
 ## 5. Tipografia
 
-## Família principal
-**Inconsolata**  
+## Família principal (Títulos)
+**Raleway**  
+Referência oficial: Google Fonts
+
+## Família de Corpo (Textos)
+**Open Sans**  
 Referência oficial: Google Fonts
 
 ### Motivo da escolha
-A Inconsolata comunica:
-- precisão
-- técnica
-- clareza
-- personalidade distinta
-- linguagem contemporânea com caráter operacional
+A combinação Raleway + Open Sans comunica:
+- **Raleway**: Sofisticação, elegância e autoridade técnica.
+- **Open Sans**: Clareza, legibilidade extrema e modernidade.
 
-Ela reforça a sensação de sistema, comando e confiabilidade.
+Essa dupla reforça o equilíbrio entre a sofisticação institucional da APEX e a clareza operacional necessária para projetos complexos.
 
 ## Escala tipográfica sugerida
 
 ### Display
-- **Display XL**: 64 / 72 / 700
-- **Display L**: 56 / 64 / 700
+- **Display XL**: 64 / 72 / 700 (Raleway)
+- **Display L**: 56 / 64 / 700 (Raleway)
 
 ### Heading
-- **H1**: 48 / 56 / 700
-- **H2**: 40 / 48 / 700
-- **H3**: 32 / 40 / 700
-- **H4**: 26 / 34 / 600
-- **H5**: 22 / 30 / 600
-- **H6**: 18 / 26 / 600
+- **H1**: 48 / 56 / 700 (Raleway)
+- **H2**: 40 / 48 / 700 (Raleway)
+- **H3**: 32 / 40 / 700 (Raleway)
+- **H4**: 26 / 34 / 600 (Raleway)
+- **H5**: 22 / 30 / 600 (Raleway)
+- **H6**: 18 / 26 / 600 (Raleway)
 
 ### Body
-- **Body L**: 18 / 30 / 400
-- **Body M**: 16 / 28 / 400
-- **Body S**: 14 / 24 / 400
+- **Body L**: 18 / 30 / 400 (Open Sans)
+- **Body M**: 16 / 28 / 400 (Open Sans)
+- **Body S**: 14 / 24 / 400 (Open Sans)
 
 ### UI
-- **Label L**: 16 / 24 / 600
-- **Label M**: 14 / 20 / 600
-- **Label S**: 12 / 18 / 600
-- **Caption**: 12 / 18 / 400
-- **Overline**: 11 / 16 / 700, tracking ampliado
+- **Label L**: 16 / 24 / 600 (Open Sans)
+- **Label M**: 14 / 20 / 600 (Open Sans)
+- **Label S**: 12 / 18 / 600 (Open Sans)
+- **Caption**: 12 / 18 / 400 (Open Sans)
+- **Overline**: 11 / 16 / 700 (Open Sans), tracking ampliado
 
 ## Regras tipográficas
-- Títulos: peso 600 ou 700
-- Corpo de texto: peso 400
-- Labels e botões: peso 600
+- Títulos: Raleway, peso 600 ou 700
+- Corpo de texto: Open Sans, peso 400
+- Labels e botões: Open Sans, peso 600
 - Evitar blocos muito longos em caixa alta
 - Preferir contrastes de peso e tamanho em vez de muitas variações decorativas
 
