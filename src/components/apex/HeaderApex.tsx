@@ -28,9 +28,7 @@ export const HeaderApex = () => {
           <Link href="#resultados" className="transition-colors hover:text-apex-orange-500">
             Resultados
           </Link>
-          <Link href="#experiencias" className="transition-colors hover:text-apex-orange-500">
-            Experiências
-          </Link>
+
         </nav>
         <div className="flex items-center space-x-4">
           <Link 

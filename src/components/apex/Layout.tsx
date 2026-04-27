@@ -37,7 +37,7 @@ export const FooterApex = () => {
               <li><Link href="#problema" className="hover:text-white transition-colors">Problema</Link></li>
               <li><Link href="#solucao" className="hover:text-white transition-colors">Solução</Link></li>
               <li><Link href="#resultados" className="hover:text-white transition-colors">Resultados</Link></li>
-              <li><Link href="#experiencias" className="hover:text-white transition-colors">Experiências</Link></li>
+
             </ul>
           </div>
 
@@ -46,8 +46,7 @@ export const FooterApex = () => {
             <h4 className="text-white font-bold mb-6 tracking-wider uppercase text-xs">O que fazemos</h4>
             <ul className="space-y-4 text-apex-blue-100/70 text-sm">
               <li><Link href="#" className="hover:text-white transition-colors">Projetos Incentivados</Link></li>
-              <li><Link href="#" className="hover:text-white transition-colors">Driving School</Link></li>
-              <li><Link href="#" className="hover:text-white transition-colors">Treinamentos Off Road</Link></li>
+
               <li><Link href="#" className="hover:text-white transition-colors">Gestão Operacional</Link></li>
             </ul>
           </div>

@@ -9,10 +9,7 @@ import {
   Users, 
   Award, 
   CheckCircle2, 
-  Car, 
-  Mountain, 
   Target,
-  ChevronDown,
   Phone,
   Mail
 } from "lucide-react";
@@ -21,7 +18,7 @@ import Link from "next/link";
 
 import { HeaderApex } from "@/components/apex/HeaderApex";
 import { HeroApex } from "@/components/apex/HeroApex";
-import { MetricCard, ServiceCard } from "@/components/apex/Cards";
+import { MetricCard } from "@/components/apex/Cards";
 import { FooterApex, SectionHeader } from "@/components/apex/Layout";
 import { Button, buttonVariants } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
@@ -204,58 +201,6 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Experiências Automotivas / Off-road */}
-      <section id="experiencias" className="py-24 bg-white">
-        <div className="container mx-auto px-4 md:px-6">
-          <SectionHeader 
-            eyebrow="Operação em Alto Nível"
-            title="Nossa atuação vai além da teoria. Executamos operações complexas sob controle."
-          />
-
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-            <ServiceCard 
-              image="/assets/images/hero.png" // Using the driving school style image
-              title="RIO TODO TERRENO Driving School"
-              description="Estratégia de vendas e experiências automotivas com conversão superior a 50%."
-              tags={["Test Drive", "Conversão", "Performance"]}
-              features={[
-                "Mais de 1.000 veículos vendidos via ações de test drive",
-                "Operação em 6 estados (RJ, MG, ES, SP, BA, CE)",
-                "Zero acidentes em todo o histórico operacional",
-                "Foco em VW do Brasil e Concessionárias"
-              ]}
-            />
-            <ServiceCard 
-              image="/assets/images/off-road.png"
-              title="Treinamentos Off Road"
-              description="Capacitação técnica completa para equipes que operam em cenários críticos."
-              tags={["Capacitação", "Segurança", "Operacional"]}
-              features={[
-                "Mais de 2.000 alunos certificados desde 2009",
-                "Treinamentos em PT, ES e EN",
-                "Redução drástica de acidentes e quebras de frota",
-                "Atendimento a clientes como NTS Brasil e TAG"
-              ]}
-            />
-          </div>
-
-          <motion.div {...fadeIn} className="mt-12 p-8 bg-apex-orange-500 rounded-2xl text-white flex flex-col md:flex-row items-center justify-between gap-6">
-            <div className="max-w-xl">
-              <h4 className="text-2xl font-bold mb-2">Precisa de controle em sua operação?</h4>
-              <p className="text-white/80">Não trabalhamos com improviso. Trabalhamos com método — em qualquer cenário.</p>
-            </div>
-            <Link 
-              href="#contato" 
-              className={cn(
-                buttonVariants({ variant: "secondary", size: "lg" }),
-                "bg-white text-apex-orange-600 hover:bg-white/90 rounded-xl h-14 font-bold"
-              )}
-            >
-              Solicitar Proposta
-            </Link>
-          </motion.div>
-        </div>
-      </section>
 
       {/* Por que importa / Público Alvo */}
       <section className="py-24 bg-apex-blue-950 text-white">
