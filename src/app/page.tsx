@@ -1,6 +1,7 @@
 "use client";
 
-import { motion } from "framer-motion";
+import { useState, useEffect } from "react";
+import { motion, AnimatePresence } from "framer-motion";
 import { 
   ShieldCheck, 
   Clock, 
@@ -24,6 +25,44 @@ import { Button, buttonVariants } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 
 export default function Home() {
+  const [currentImageIndex, setCurrentImageIndex] = useState(0);
+  const [currentPartnerIndex, setCurrentPartnerIndex] = useState(0);
+
+  const carouselItems = [
+    { src: "/assets/images/eventos/itacoatiara1.png", title: "Itacoatiara Big Wave", subtitle: "Execução e Aprovação Exponencial" },
+    { src: "/assets/images/eventos/itacoatiara2.png", title: "Itacoatiara Big Wave", subtitle: "Estruturação Estratégica" },
+    { src: "/assets/images/eventos/itacoatiara3.png", title: "Itacoatiara Big Wave", subtitle: "Captação de Patrocínio" },
+    { src: "/assets/images/eventos/riojazzfest.png", title: "Rio Jazz Fest", subtitle: "Enquadramento Legal e Execução" },
+    { src: "/assets/images/eventos/cariocagames.png", title: "Carioca Games", subtitle: "Aprovação Ágil" },
+    { src: "/assets/images/eventos/classico90.png", title: "Clássico 90", subtitle: "Prestação de Contas" },
+    { src: "/assets/images/eventos/ifc.png", title: "IFC", subtitle: "Operação em Alto Nível" },
+    { src: "/assets/images/eventos/rogimirim.png", title: "Rogimirim", subtitle: "Experiência Institucional" },
+  ];
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setCurrentImageIndex((prev) => (prev + 1) % carouselItems.length);
+    }, 4000);
+    return () => clearInterval(interval);
+  }, []);
+
+  const partnerLogos = [
+    { src: "/assets/images/parceiros/logo-RTT.png", alt: "Rio Todo Terreno" },
+    { src: "/assets/images/parceiros/logo-peck.png", alt: "Peck Produções" },
+    { src: "/assets/images/parceiros/logo-itacoatiara-big-waves.png", alt: "Itacoatiara Big Wave" },
+    { src: "/assets/images/parceiros/logo-carioca-games.png", alt: "Carioca Games" },
+    { src: "/assets/images/parceiros/logo-Gringo-Super-Fight.jpg", alt: "Gringo Super Fight" },
+    { src: "/assets/images/parceiros/logo-rogi.png", alt: "Rogimirim" }
+  ];
+  const totalPartnerSlides = Math.ceil(partnerLogos.length / 3);
+
+  useEffect(() => {
+    const partnerInterval = setInterval(() => {
+      setCurrentPartnerIndex((prev) => (prev + 1) % totalPartnerSlides);
+    }, 4000);
+    return () => clearInterval(partnerInterval);
+  }, [totalPartnerSlides]);
+
   const fadeIn = {
     initial: { opacity: 0, y: 20 },
     whileInView: { opacity: 1, y: 0 },
@@ -152,20 +191,55 @@ export default function Home() {
               initial={{ opacity: 0, scale: 0.9 }}
               whileInView={{ opacity: 1, scale: 1 }}
               viewport={{ once: true }}
-              className="relative aspect-square lg:aspect-video rounded-2xl overflow-hidden shadow-2xl"
+              className="relative aspect-square lg:aspect-video rounded-2xl overflow-hidden shadow-2xl group"
             >
-              <Image 
-                src="/assets/images/sports.png" 
-                alt="Projetos Esportivos" 
-                fill 
-                className="object-cover"
-              />
-              <div className="absolute inset-0 bg-gradient-to-t from-apex-blue-900/60 to-transparent" />
-              <div className="absolute bottom-8 left-8 right-8">
-                <div className="bg-white/10 backdrop-blur-md p-6 rounded-xl border border-white/20">
-                  <p className="text-white font-bold text-2xl mb-1">Itacoatiara Big Wave</p>
-                  <p className="text-white/80 text-sm tracking-wide uppercase font-heading">Execução e Aprovação Exponencial</p>
-                </div>
+              <AnimatePresence mode="wait">
+                <motion.div
+                  key={currentImageIndex}
+                  initial={{ opacity: 0, scale: 1.05 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  exit={{ opacity: 0 }}
+                  transition={{ duration: 0.8 }}
+                  className="absolute inset-0"
+                >
+                  <Image 
+                    src={carouselItems[currentImageIndex].src}
+                    alt={carouselItems[currentImageIndex].title}
+                    fill 
+                    className="object-cover"
+                  />
+                </motion.div>
+              </AnimatePresence>
+              <div className="absolute inset-0 bg-gradient-to-t from-apex-blue-900/80 via-apex-blue-900/20 to-transparent z-10 pointer-events-none" />
+              
+              {/* Carousel Indicators */}
+              <div className="absolute top-4 right-4 flex gap-2 z-20">
+                {carouselItems.map((_, idx) => (
+                  <button
+                    key={idx}
+                    onClick={() => setCurrentImageIndex(idx)}
+                    className={`w-2 h-2 rounded-full transition-all duration-300 ${
+                      idx === currentImageIndex ? "bg-apex-orange-500 w-6" : "bg-white/50 hover:bg-white/80"
+                    }`}
+                    aria-label={`Go to slide ${idx + 1}`}
+                  />
+                ))}
+              </div>
+
+              <div className="absolute bottom-8 left-8 right-8 z-20 pointer-events-none">
+                <AnimatePresence mode="wait">
+                  <motion.div 
+                    key={currentImageIndex}
+                    initial={{ opacity: 0, y: 10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: -10 }}
+                    transition={{ duration: 0.5 }}
+                    className="bg-white/10 backdrop-blur-md p-6 rounded-xl border border-white/20"
+                  >
+                    <p className="text-white font-bold text-2xl mb-1">{carouselItems[currentImageIndex].title}</p>
+                    <p className="text-white/80 text-sm tracking-wide uppercase font-heading">{carouselItems[currentImageIndex].subtitle}</p>
+                  </motion.div>
+                </AnimatePresence>
               </div>
             </motion.div>
           </div>
@@ -188,15 +262,23 @@ export default function Home() {
             <MetricCard value={12} suffix=" Dias" label="Tempo Recorde" icon={Clock} description="Velocidade máxima na aprovação, sem pular etapas." />
           </div>
 
-          <div className="mt-20 pt-12 border-t border-apex-blue-100/50 flex flex-wrap justify-center items-center gap-12 grayscale opacity-60">
-             {/* Logo placeholders or real logos if available */}
-             <div className="h-8 w-32 relative">
-               <Image src="/assets/logos/logo-RTT.png" alt="Rio Todo Terreno" fill className="object-contain" />
-             </div>
-             <p className="font-bold text-apex-blue-900 tracking-tighter text-xl font-heading">PECK PRODUÇÕES</p>
-             <p className="font-bold text-apex-blue-900 tracking-tighter text-xl font-heading">ITACOATIARA BIG WAVE</p>
-             <p className="font-bold text-apex-blue-900 tracking-tighter text-xl font-heading">VOLKSWAGEN</p>
-             <p className="font-bold text-apex-blue-900 tracking-tighter text-xl font-heading">GRUPO LÍDER</p>
+          <div className="mt-20 pt-12 border-t border-apex-blue-100/50 grayscale opacity-60 hover:grayscale-0 hover:opacity-100 transition-all duration-500 overflow-hidden relative h-28 md:h-32">
+            <AnimatePresence mode="wait">
+              <motion.div
+                key={currentPartnerIndex}
+                initial={{ opacity: 0, x: 20 }}
+                animate={{ opacity: 1, x: 0 }}
+                exit={{ opacity: 0, x: -20 }}
+                transition={{ duration: 0.5 }}
+                className="absolute inset-0 flex justify-center items-center gap-8 md:gap-24"
+              >
+                {partnerLogos.slice(currentPartnerIndex * 3, (currentPartnerIndex * 3) + 3).map((logo, idx) => (
+                  <div key={idx} className="h-20 md:h-28 w-44 md:w-60 relative flex-shrink-0 mix-blend-multiply">
+                    <Image src={logo.src} alt={logo.alt} fill className="object-contain" sizes="(max-width: 768px) 176px, 240px" />
+                  </div>
+                ))}
+              </motion.div>
+            </AnimatePresence>
           </div>
         </div>
       </section>
