@@ -57,11 +57,11 @@ export const FooterApex = () => {
             <ul className="space-y-4 text-apex-blue-100/70 text-sm">
               <li className="flex items-start gap-3">
                 <Phone className="w-5 h-5 text-apex-orange-400 flex-shrink-0" />
-                <span>+55 (21) 99313-2615</span>
+                <span>+55 (21) 99156-0188</span>
               </li>
               <li className="flex items-start gap-3">
                 <Mail className="w-5 h-5 text-apex-orange-400 flex-shrink-0" />
-                <span>contato@apexpowerprojects.com.br</span>
+                <span>projetos@apexpowerprojects.com.br</span>
               </li>
               <li className="flex items-start gap-3">
                 <MapPin className="w-5 h-5 text-apex-orange-400 flex-shrink-0" />

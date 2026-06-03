@@ -27,6 +27,37 @@ import { cn } from "@/lib/utils";
 export default function Home() {
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const [currentPartnerIndex, setCurrentPartnerIndex] = useState(0);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [formStatus, setFormStatus] = useState<"idle" | "success" | "error">("idle");
+
+  const handleFormSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    setIsSubmitting(true);
+    setFormStatus("idle");
+
+    const formData = new FormData(e.currentTarget);
+    
+    try {
+      const response = await fetch("https://formsubmit.co/ajax/projetos@apexpowerprojects.com.br", {
+        method: "POST",
+        headers: {
+          "Accept": "application/json"
+        },
+        body: formData
+      });
+
+      if (response.ok) {
+        setFormStatus("success");
+        e.currentTarget.reset();
+      } else {
+        setFormStatus("error");
+      }
+    } catch (error) {
+      setFormStatus("error");
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
 
   const carouselItems = [
     { src: "/assets/images/eventos/itacoatiara1.png", title: "Itacoatiara Big Wave", subtitle: "Execução e Aprovação Exponencial" },
@@ -326,7 +357,7 @@ export default function Home() {
                  
                  <div className="space-y-8 mt-12">
                    <a 
-                     href="https://wa.me/5521993132615" 
+                     href="https://wa.me/5521991560188" 
                      target="_blank" 
                      rel="noopener noreferrer"
                      className="flex gap-6 items-center group cursor-pointer"
@@ -336,12 +367,12 @@ export default function Home() {
                      </div>
                      <div>
                        <p className="text-sm font-bold text-apex-neutral-500 uppercase tracking-widest">WhatsApp Direto</p>
-                       <p className="text-xl font-bold text-apex-blue-900">+55 (21) 99313-2615</p>
+                       <p className="text-xl font-bold text-apex-blue-900">+55 (21) 99156-0188</p>
                      </div>
                    </a>
                    
                    <a 
-                     href="mailto:contato@apexpowerprojects.com.br"
+                     href="mailto:projetos@apexpowerprojects.com.br"
                      className="flex gap-6 items-center group cursor-pointer"
                    >
                      <div className="w-14 h-14 rounded-2xl bg-apex-orange-100 flex items-center justify-center text-apex-orange-500 flex-shrink-0 transition-all group-hover:bg-apex-orange-500 group-hover:text-white group-hover:scale-110">
@@ -349,7 +380,7 @@ export default function Home() {
                      </div>
                      <div>
                        <p className="text-sm font-bold text-apex-neutral-500 uppercase tracking-widest">E-mail Institucional</p>
-                       <p className="text-xl font-bold text-apex-blue-900">contato@apexpowerprojects.com.br</p>
+                       <p className="text-xl font-bold text-apex-blue-900">projetos@apexpowerprojects.com.br</p>
                      </div>
                    </a>
                  </div>
@@ -361,25 +392,41 @@ export default function Home() {
                  viewport={{ once: true }}
                  className="bg-apex-blue-50/50 p-8 md:p-10 rounded-3xl border border-apex-blue-100"
                >
-                 <form className="space-y-6">
+                 <form className="space-y-6" onSubmit={handleFormSubmit}>
                    <div className="space-y-2">
                      <label className="text-sm font-bold text-apex-blue-900">Nome Completo</label>
-                     <input type="text" className="w-full h-12 px-4 rounded-xl border border-apex-blue-100 bg-white focus:ring-2 focus:ring-apex-orange-400 outline-none transition-all" placeholder="Seu nome aqui" />
+                     <input name="name" required type="text" className="w-full h-12 px-4 rounded-xl border border-apex-blue-100 bg-white focus:ring-2 focus:ring-apex-orange-400 outline-none transition-all" placeholder="Seu nome aqui" />
                    </div>
                    <div className="space-y-2">
                      <label className="text-sm font-bold text-apex-blue-900">E-mail Corporativo</label>
-                     <input type="email" className="w-full h-12 px-4 rounded-xl border border-apex-blue-100 bg-white focus:ring-2 focus:ring-apex-orange-400 outline-none transition-all" placeholder="empresa@email.com" />
+                     <input name="email" required type="email" className="w-full h-12 px-4 rounded-xl border border-apex-blue-100 bg-white focus:ring-2 focus:ring-apex-orange-400 outline-none transition-all" placeholder="empresa@email.com" />
                    </div>
                    <div className="space-y-2">
                      <label className="text-sm font-bold text-apex-blue-900">Empresa / Volume de Imposto Estimado</label>
-                     <input type="text" className="w-full h-12 px-4 rounded-xl border border-apex-blue-100 bg-white focus:ring-2 focus:ring-apex-orange-400 outline-none transition-all" placeholder="Ex: Apex Power / R$ 5M" />
+                     <input name="empresa" required type="text" className="w-full h-12 px-4 rounded-xl border border-apex-blue-100 bg-white focus:ring-2 focus:ring-apex-orange-400 outline-none transition-all" placeholder="Ex: Apex Power / R$ 5M" />
                    </div>
                    <div className="space-y-2">
                      <label className="text-sm font-bold text-apex-blue-900">Mensagem</label>
-                     <textarea className="w-full h-32 p-4 rounded-xl border border-apex-blue-100 bg-white focus:ring-2 focus:ring-apex-orange-400 outline-none transition-all resize-none" placeholder="Como posso ajudar seu projeto?"></textarea>
+                     <textarea name="message" required className="w-full h-32 p-4 rounded-xl border border-apex-blue-100 bg-white focus:ring-2 focus:ring-apex-orange-400 outline-none transition-all resize-none" placeholder="Como posso ajudar seu projeto?"></textarea>
                    </div>
-                   <Button size="lg" className="w-full bg-apex-blue-900 hover:bg-apex-blue-800 text-white font-bold h-14 rounded-xl text-lg">
-                     Enviar Solicitação
+
+                   {formStatus === "success" && (
+                     <div className="p-4 bg-green-50 text-green-700 border border-green-200 rounded-xl text-sm font-medium">
+                       Mensagem enviada com sucesso! Entraremos em contato em breve.
+                     </div>
+                   )}
+                   
+                   {formStatus === "error" && (
+                     <div className="p-4 bg-red-50 text-red-700 border border-red-200 rounded-xl text-sm font-medium">
+                       Ocorreu um erro ao enviar a mensagem. Por favor, tente novamente ou use nossos canais diretos.
+                     </div>
+                   )}
+
+                   <input type="hidden" name="_captcha" value="false" />
+                   <input type="hidden" name="_template" value="box" />
+
+                   <Button disabled={isSubmitting} type="submit" size="lg" className="w-full bg-apex-blue-900 hover:bg-apex-blue-800 text-white font-bold h-14 rounded-xl text-lg disabled:opacity-70">
+                     {isSubmitting ? "Enviando..." : "Enviar Solicitação"}
                    </Button>
                  </form>
                </motion.div>

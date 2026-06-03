@@ -54,7 +54,7 @@ export const HeroApex = () => {
                 "bg-apex-orange-500 hover:bg-apex-orange-600 text-white font-bold h-14 px-8 rounded-xl text-lg group border-none"
               )}
             >
-              Estruturar nosso projeto incentivado
+              Quero estruturar meu projeto
               <ArrowRight className="ml-2 w-5 h-5 group-hover:translate-x-1 transition-transform" />
             </Link>
             <Link 
