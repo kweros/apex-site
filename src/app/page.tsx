@@ -36,14 +36,16 @@ export default function Home() {
     setFormStatus("idle");
 
     const formData = new FormData(e.currentTarget);
+    const data = Object.fromEntries(formData.entries());
     
     try {
       const response = await fetch("https://formsubmit.co/ajax/projetos@apexpowerprojects.com.br", {
         method: "POST",
         headers: {
+          "Content-Type": "application/json",
           "Accept": "application/json"
         },
-        body: formData
+        body: JSON.stringify(data)
       });
 
       if (response.ok) {
