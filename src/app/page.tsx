@@ -24,11 +24,30 @@ import { FooterApex, SectionHeader } from "@/components/apex/Layout";
 import { Button, buttonVariants } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 
+const partnerLogos = [
+  { src: "/assets/images/parceiros/logo-RTT.png", alt: "Rio Todo Terreno" },
+  { src: "/assets/images/parceiros/logo-peck.png", alt: "Peck Produções" },
+  { src: "/assets/images/parceiros/logo-itacoatiara-big-waves.png", alt: "Itacoatiara Big Wave" },
+  { src: "/assets/images/parceiros/logo-carioca-games.png", alt: "Carioca Games" },
+  { src: "/assets/images/parceiros/logo-Gringo-Super-Fight.jpg", alt: "Gringo Super Fight" },
+  { src: "/assets/images/parceiros/logo-rogi.png", alt: "Rogimirim" }
+];
+
 export default function Home() {
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const [currentPartnerIndex, setCurrentPartnerIndex] = useState(0);
+  const [shuffledPartners, setShuffledPartners] = useState<typeof partnerLogos>(partnerLogos);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [formStatus, setFormStatus] = useState<"idle" | "success" | "error">("idle");
+
+  useEffect(() => {
+    const shuffled = [...partnerLogos];
+    for (let i = shuffled.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+    }
+    setShuffledPartners(shuffled);
+  }, []);
 
   const handleFormSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -79,14 +98,6 @@ export default function Home() {
     return () => clearInterval(interval);
   }, []);
 
-  const partnerLogos = [
-    { src: "/assets/images/parceiros/logo-RTT.png", alt: "Rio Todo Terreno" },
-    { src: "/assets/images/parceiros/logo-peck.png", alt: "Peck Produções" },
-    { src: "/assets/images/parceiros/logo-itacoatiara-big-waves.png", alt: "Itacoatiara Big Wave" },
-    { src: "/assets/images/parceiros/logo-carioca-games.png", alt: "Carioca Games" },
-    { src: "/assets/images/parceiros/logo-Gringo-Super-Fight.jpg", alt: "Gringo Super Fight" },
-    { src: "/assets/images/parceiros/logo-rogi.png", alt: "Rogimirim" }
-  ];
   const totalPartnerSlides = Math.ceil(partnerLogos.length / 3);
 
   useEffect(() => {
@@ -305,7 +316,7 @@ export default function Home() {
                 transition={{ duration: 0.5 }}
                 className="absolute inset-0 flex justify-center items-center gap-8 md:gap-24"
               >
-                {partnerLogos.slice(currentPartnerIndex * 3, (currentPartnerIndex * 3) + 3).map((logo, idx) => (
+                {shuffledPartners.slice(currentPartnerIndex * 3, (currentPartnerIndex * 3) + 3).map((logo, idx) => (
                   <div key={idx} className="h-20 md:h-28 w-44 md:w-60 relative flex-shrink-0 mix-blend-multiply">
                     <Image src={logo.src} alt={logo.alt} fill className="object-contain" sizes="(max-width: 768px) 176px, 240px" />
                   </div>
@@ -380,10 +391,10 @@ export default function Home() {
                      <div className="w-14 h-14 rounded-2xl bg-apex-orange-100 flex items-center justify-center text-apex-orange-500 flex-shrink-0 transition-all group-hover:bg-apex-orange-500 group-hover:text-white group-hover:scale-110">
                        <Mail className="w-7 h-7" />
                      </div>
-                     <div>
-                       <p className="text-sm font-bold text-apex-neutral-500 uppercase tracking-widest">E-mail Institucional</p>
-                       <p className="text-xl font-bold text-apex-blue-900">projetos@apexpowerprojects.com.br</p>
-                     </div>
+                      <div>
+                        <p className="text-sm font-bold text-apex-neutral-500 uppercase tracking-widest">E-mail Institucional</p>
+                        <p className="text-xs min-[360px]:text-sm sm:text-lg md:text-xl font-bold text-apex-blue-900">projetos@apexpowerprojects.com.br</p>
+                      </div>
                    </a>
                  </div>
                </motion.div>
