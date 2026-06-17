@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { 
   ShieldCheck, 
@@ -35,10 +35,37 @@ const partnerLogos = [
 
 export default function Home() {
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
-  const [currentPartnerIndex, setCurrentPartnerIndex] = useState(0);
   const [shuffledPartners, setShuffledPartners] = useState<typeof partnerLogos>(partnerLogos);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [formStatus, setFormStatus] = useState<"idle" | "success" | "error">("idle");
+
+  const carouselRef = useRef<HTMLDivElement>(null);
+  const [isDragging, setIsDragging] = useState(false);
+  const [startX, setStartX] = useState(0);
+  const [scrollLeftState, setScrollLeftState] = useState(0);
+
+  const handleMouseDown = (e: React.MouseEvent) => {
+    if (!carouselRef.current) return;
+    setIsDragging(true);
+    setStartX(e.pageX - carouselRef.current.offsetLeft);
+    setScrollLeftState(carouselRef.current.scrollLeft);
+  };
+
+  const handleMouseLeave = () => {
+    setIsDragging(false);
+  };
+
+  const handleMouseUp = () => {
+    setIsDragging(false);
+  };
+
+  const handleMouseMove = (e: React.MouseEvent) => {
+    if (!isDragging || !carouselRef.current) return;
+    e.preventDefault();
+    const x = e.pageX - carouselRef.current.offsetLeft;
+    const walk = (x - startX) * 1.5; // scroll-fast multiplier
+    carouselRef.current.scrollLeft = scrollLeftState - walk;
+  };
 
   useEffect(() => {
     const shuffled = [...partnerLogos];
@@ -98,14 +125,7 @@ export default function Home() {
     return () => clearInterval(interval);
   }, []);
 
-  const totalPartnerSlides = Math.ceil(partnerLogos.length / 3);
 
-  useEffect(() => {
-    const partnerInterval = setInterval(() => {
-      setCurrentPartnerIndex((prev) => (prev + 1) % totalPartnerSlides);
-    }, 4000);
-    return () => clearInterval(partnerInterval);
-  }, [totalPartnerSlides]);
 
   const fadeIn = {
     initial: { opacity: 0, y: 20 },
@@ -306,23 +326,31 @@ export default function Home() {
             <MetricCard value={12} suffix=" Dias" label="Tempo Recorde" icon={Clock} description="Velocidade máxima na aprovação, sem pular etapas." />
           </div>
 
-          <div className="mt-20 pt-12 border-t border-apex-blue-100/50 grayscale opacity-60 hover:grayscale-0 hover:opacity-100 transition-all duration-500 overflow-hidden relative h-28 md:h-32">
-            <AnimatePresence mode="wait">
-              <motion.div
-                key={currentPartnerIndex}
-                initial={{ opacity: 0, x: 20 }}
-                animate={{ opacity: 1, x: 0 }}
-                exit={{ opacity: 0, x: -20 }}
-                transition={{ duration: 0.5 }}
-                className="absolute inset-0 flex justify-center items-center gap-8 md:gap-24"
+          <div 
+            ref={carouselRef}
+            onMouseDown={handleMouseDown}
+            onMouseLeave={handleMouseLeave}
+            onMouseUp={handleMouseUp}
+            onMouseMove={handleMouseMove}
+            className="mt-20 pt-12 border-t border-apex-blue-100/50 grayscale opacity-60 hover:grayscale-0 hover:opacity-100 transition-all duration-500 overflow-x-auto flex snap-x snap-mandatory gap-6 md:gap-16 scrollbar-none py-4 px-[20%] md:px-[35%] cursor-grab active:cursor-grabbing select-none"
+          >
+            {shuffledPartners.map((logo, idx) => (
+              <div 
+                key={idx} 
+                className="h-20 md:h-28 w-[60%] md:w-[30%] relative flex-shrink-0 mix-blend-multiply snap-center flex items-center justify-center"
               >
-                {shuffledPartners.slice(currentPartnerIndex * 3, (currentPartnerIndex * 3) + 3).map((logo, idx) => (
-                  <div key={idx} className="h-20 md:h-28 w-44 md:w-60 relative flex-shrink-0 mix-blend-multiply">
-                    <Image src={logo.src} alt={logo.alt} fill className="object-contain" sizes="(max-width: 768px) 176px, 240px" />
-                  </div>
-                ))}
-              </motion.div>
-            </AnimatePresence>
+                <div className="relative w-44 md:w-60 h-full">
+                  <Image 
+                    src={logo.src} 
+                    alt={logo.alt} 
+                    fill 
+                    className="object-contain pointer-events-none" 
+                    sizes="(max-width: 768px) 176px, 240px" 
+                    draggable={false} 
+                  />
+                </div>
+              </div>
+            ))}
           </div>
         </div>
       </section>
